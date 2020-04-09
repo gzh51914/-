@@ -1,34 +1,42 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import Classify from '../views/Classify.vue'
+import Cart from '../views/Cart.vue'
+import Personal from '../views/Classify.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    component: Home
+    redirect: "/home"
   },
   {
     path: '/home',
     name: 'home',
     component: Home
   },
+  //页面组件懒加载，导致在随意路由下刷新页面，this.$route 都是空的问题。 解决（bottomNav.vue）组件的进入状态
   {
     path: '/cart',
     name: 'cart',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue')
+    // component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue'), 
+    component: Cart
+
   },
   {
     path: '/personal',
     name: 'personal',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Personal.vue')
+    // component: () => import(/* webpackChunkName: "about" */ '../views/Personal.vue'),
+    component: Personal
+
   },
   {
     path: '/classify',
     name: 'classify',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Classify.vue')
+    // component: () => import(/* webpackChunkName: "about" */ '../views/Classify.vue'),
+    component: Classify
   },
   {
     path: '*',
@@ -37,7 +45,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'history', //hash
   base: process.env.BASE_URL,
   routes
 })
