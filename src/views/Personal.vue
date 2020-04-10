@@ -1,6 +1,6 @@
 <template>
   <div id="personal">
-    <div>这里是个人中心页面</div>
+    <div>个人中心</div>
   </div>
 </template>
 
@@ -15,4 +15,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  div{
+    height: ;
+  }
 </style>
