@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Classify from '../views/Classify.vue'
 import Cart from '../views/Cart.vue'
-import Personal from '../views/Classify.vue'
+import Personal from '../views/Personal.vue'
 
 Vue.use(VueRouter)
 
