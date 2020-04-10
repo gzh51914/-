@@ -1,7 +1,5 @@
 <template>
-  <div id="personal">
-    <div>这里是个人中心页面</div>
-  </div>
+  <div id="personal"></div>
 </template>
 
 <script>

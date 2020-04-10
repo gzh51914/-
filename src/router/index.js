@@ -3,7 +3,10 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Classify from '../views/Classify.vue'
 import Cart from '../views/Cart.vue'
-import Personal from '../views/Classify.vue'
+import Personal from '../views/Personal.vue'
+import Brand from '../views/Brand.vue'
+import Detail from '../views/Detail.vue'
+import Search from '../views/Search.vue'
 
 Vue.use(VueRouter)
 
@@ -31,6 +34,24 @@ const routes = [
     // component: () => import(/* webpackChunkName: "about" */ '../views/Personal.vue'),
     component: Personal
 
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: Detail
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: Search,
+    meta: {
+      hiddenBottomNav: true,
+    }
+  },
+  {
+    path: '/brand',
+    name: 'brand',
+    component: Brand
   },
   {
     path: '/classify',
