@@ -38,7 +38,10 @@ const routes = [
   {
     path: '/detail',
     name: 'detail',
-    component: Detail
+    component: Detail,
+    meta: {
+      hiddenBottomNav: true,
+    }
   },
   {
     path: '/search',
@@ -51,7 +54,10 @@ const routes = [
   {
     path: '/brand',
     name: 'brand',
-    component: Brand
+    component: Brand,
+    meta: {
+      hiddenBottomNav: true,
+    }
   },
   {
     path: '/classify',
