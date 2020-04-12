@@ -2,9 +2,11 @@
   <div id="personal">
     <van-nav-bar title="个人中心" left-arrow @click-left="onClickLeft" @click-right="onClickRight" />
     <div class="content_top">
-      <a href="https://m.juanpi.com/user/login">登录</a>
+      <!-- <a href="https://m.juanpi.com/user/login">登录</a> -->
+      <router-link to="login">登录</router-link>
       <a>|</a>
-      <a href="https://m.juanpi.com/user/register">注册</a>
+      <!-- <a href="https://m.juanpi.com/user/register">注册</a> -->
+      <router-link to="register">注册</router-link>
     </div>
     <van-nav-bar left-text="我的订单" right-text="订单详情"></van-nav-bar>
     <van-grid>
@@ -55,7 +57,8 @@ export default {
   // }
   methods: {
     onClickLeft() {
-      Toast("返回");
+      // Toast("返回");
+      this.$router.go(-1);
     },
     onClickRight() {
       Toast("按钮");

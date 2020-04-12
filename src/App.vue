@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <bottom-nav v-show="!$route.meta.hiddenBottomNav"></bottom-nav>
+    <bottom-nav v-if="!$route.meta.hiddenBottomNav"></bottom-nav>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
     bottomNav
   },
   mounted() {
-    console.log(this.$route);
+    // console.log(this.$route);
   }
 };
 </script>

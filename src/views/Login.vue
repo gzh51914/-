@@ -1,15 +1,23 @@
 <template>
   <div class="home">
     <div class="fixtop">
-      <a id="t-find" href="javascript:history.go(-1);" class="btnBack">
+      <!-- <a id="t-find" href="javascript:history.go(-1);" class="btnBack"> -->
+      <a id="t-find" @click="$router.go(-1)" class="btnBack">
         <img
           src="//jp.juancdn.com/jpwebapp_v1/images_v1/user/arrow_white.png?5123297e-1&amp;sv=449ce9ee"
         />
       </a>
       <span id="t-index">登录</span>
-      <a
+      <!-- <a
         id="t-user"
         href="//m.juanpi.com/user/register"
+        class="free-reg"
+        rel="nofollow"
+        target="_parent"
+      >注册</a>-->
+      <a
+        id="t-user"
+        @click="$router.push('register')"
         class="free-reg"
         rel="nofollow"
         target="_parent"
@@ -40,9 +48,9 @@
 
 <script>
 import Vue from "vue";
-import { Form } from "vant";
+import { Form, Field } from "vant";
 
-Vue.use(Form);
+Vue.use(Form).use(Field);
 export default {
   data() {
     return {

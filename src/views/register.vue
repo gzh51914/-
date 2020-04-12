@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <van-nav-bar title="注册页" left-text="返回" left-arrow>
+    <van-nav-bar title="注册页" left-text="返回" @click-left="go" left-arrow>
       <template #right></template>
     </van-nav-bar>
     <p class="reg-notice">请确保你的手机畅通，用于接收验证码短信</p>
@@ -53,7 +53,13 @@ import Vue from "vue";
 import { NavBar } from "vant";
 
 Vue.use(NavBar);
-export default {};
+export default {
+  methods: {
+    go() {
+      this.$router.go(-1);
+    }
+  }
+};
 </script>
 
 

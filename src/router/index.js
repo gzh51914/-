@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Classify from '../views/Classify.vue'
 import Cart from '../views/Cart.vue'
 import Personal from '../views/Personal.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 import Brand from '../views/Brand.vue'
 import Detail from '../views/Detail.vue'
 import Search from '../views/Search.vue'
@@ -33,11 +35,31 @@ const routes = [
 
   },
   {
+    path: '/login',
+    name: 'login',
+    // component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue'), 
+    component: Login,
+    meta: {
+      hiddenBottomNav: true,
+    }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    // component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue'), 
+    component: Register,
+    meta: {
+      hiddenBottomNav: true,
+    }
+  },
+  {
     path: '/personal',
     name: 'personal',
     // component: () => import(/* webpackChunkName: "about" */ '../views/Personal.vue'),
-    component: Personal
-
+    component: Personal,
+    meta: {
+      hiddenBottomNav: true,
+    }
   },
   {
     path: '/detail',

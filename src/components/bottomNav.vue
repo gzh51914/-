@@ -47,6 +47,11 @@ Vue.use(Icon);
 import { instance } from "@/utils/axios.js";
 
 export default {
+  beforeRouteUpdate(to, from, next) {
+    console.log(to);
+    next();
+  },
+
   data() {
     return {
       menulist: [],
