@@ -44,7 +44,7 @@ Vue.use(Tabbar);
 Vue.use(TabbarItem);
 Vue.use(Icon);
 
-import instance from "@/utils/axios.js";
+import { instance } from "@/utils/axios.js";
 
 export default {
   data() {
@@ -111,19 +111,19 @@ export default {
   },
   mounted() {
     //测试接口  首页数据
-    instance
-      .get("/api/getGoods", {
-        params: {
-          page: 1,
-          zy_ids: "p8_c4_l4",
-          app_name: "zhe",
-          catname: "tab_hpzc",
-          flag: "tab_hpzc"
-        }
-      })
-      .then(res => {
-        console.log(res);
-      });
+    // instance
+    //   .get("/api/getGoods", {
+    //     params: {
+    //       page: 1,
+    //       zy_ids: "p8_c4_l4",
+    //       app_name: "zhe",
+    //       catname: "tab_hpzc",
+    //       flag: "tab_hpzc"
+    //     }
+    //   })
+    //   .then(res => {
+    //     console.log(res);
+    //   });
   }
 };
 </script>

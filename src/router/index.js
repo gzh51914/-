@@ -4,6 +4,10 @@ import Home from '../views/Home.vue'
 import Classify from '../views/Classify.vue'
 import Cart from '../views/Cart.vue'
 import Personal from '../views/Personal.vue'
+import Brand from '../views/Brand.vue'
+import Detail from '../views/Detail.vue'
+import Search from '../views/Search.vue'
+import Cate from '../views/Cate.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +26,10 @@ const routes = [
     path: '/cart',
     name: 'cart',
     // component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue'), 
-    component: Cart
+    component: Cart,
+    meta: {
+      hiddenBottomNav: true,
+    }
 
   },
   {
@@ -31,6 +38,38 @@ const routes = [
     // component: () => import(/* webpackChunkName: "about" */ '../views/Personal.vue'),
     component: Personal
 
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: Detail,
+    meta: {
+      hiddenBottomNav: true,
+    }
+  },
+  {
+    path: '/cate',
+    name: 'cate',
+    component: Cate,
+    meta: {
+      hiddenBottomNav: true,
+    }
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: Search,
+    meta: {
+      hiddenBottomNav: true,
+    }
+  },
+  {
+    path: '/brand',
+    name: 'brand',
+    component: Brand,
+    meta: {
+      hiddenBottomNav: true,
+    }
   },
   {
     path: '/classify',

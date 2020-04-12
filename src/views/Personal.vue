@@ -8,7 +8,7 @@
     </div>
     <van-nav-bar left-text="我的订单" right-text="订单详情"></van-nav-bar>
     <van-grid>
-      <van-grid-item icon="paid" text="待付款" icon-size="40px"/>
+      <van-grid-item icon="paid" text="待付款" icon-size="40px" />
       <van-grid-item icon="friends-o" text="待成团" />
       <van-grid-item icon="refund-o" text="待收货" />
       <van-grid-item icon="logistics" text="退款/售后" />
@@ -114,7 +114,7 @@ export default {
   line-height: 0.88rem;
   color: #000;
 }
-.van-grid{
+.van-grid {
   width: 100%;
   height: 1.58rem;
 }

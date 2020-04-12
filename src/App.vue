@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <bottom-nav></bottom-nav>
+    <bottom-nav v-show="!$route.meta.hiddenBottomNav"></bottom-nav>
   </div>
 </template>
 
@@ -11,6 +11,9 @@ import bottomNav from "@/components/bottomNav.vue";
 export default {
   components: {
     bottomNav
+  },
+  mounted() {
+    console.log(this.$route);
   }
 };
 </script>
