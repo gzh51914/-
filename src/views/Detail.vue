@@ -30,7 +30,7 @@
     <!-- Promotion -->
     <div id="Promotion">
       <dir class="sectionBox" @click="popup()">
-        <div class="topBox">
+        <div class="topBox" v-if="discountShow">
           <div class="tip">{{detailCoupon.title}}</div>
           <div class="text">{{detailCoupon.content}}</div>
           <div class="iconBox">
@@ -61,7 +61,7 @@
     <!-- Promotion -->
 
     <div id="selectBox">
-      <dir class="sectionBox" @click="popup()">
+      <dir class="sectionBox" @click="popup2()">
         <div class="topBox">
           <div class="text">请选择颜色、尺码</div>
           <div class="iconBox">
@@ -83,7 +83,7 @@
         <div class="contextBox">
           <div class="title">促销</div>
 
-          <div class="topBox">
+          <div class="topBox" v-if="discountShow">
             <div class="tip">{{detailCoupon.title}}</div>
             <div class="text">{{detailCoupon.content}}</div>
             <div class="iconBox">
@@ -92,16 +92,70 @@
           </div>
         </div>
       </van-popup>
-    </div>
 
+      <!-- popup2 -->
+      <div id="popup2">
+        <van-popup
+          v-model="show2"
+          closeable
+          close-icon="close"
+          position="bottom"
+          :style="{ height: '60%',overflowY:'visible' }"
+        >
+          <div class="contextBox2">
+            <div class="topBox">
+              <div class="imgBox">
+                <img :src="detailInfo.goods_pic_url" alt />
+              </div>
+
+              <div class="shopInfo clearfix">
+                <div class="price">￥99.9</div>
+                <div class="shop_c_s">
+                  <span>{{selectShop}}</span>
+                  <span v-text="colorText">颜色</span>
+                  <span v-text="sizeText">尺码</span>
+                </div>
+              </div>
+            </div>
+            <div class="colorBox">
+              <h2>颜色</h2>
+              <div class="selectBox">
+                <div
+                  class="s_option"
+                  v-for="(coloritem,index) in colorArr"
+                  :key="coloritem.av_zvalue"
+                  :class="colorActive==index?'s_option_active':''"
+                  @click="colorChange(index,coloritem)"
+                >{{coloritem.av_zvalue}}</div>
+              </div>
+            </div>
+            <div class="sizeBox">
+              <h2>尺寸</h2>
+              <div class="selectBox">
+                <div
+                  class="s_option"
+                  v-for="(sizeitem,index) in sizeArr"
+                  :key="sizeitem.av_fvalue"
+                  :class="sizeActive==index?'s_option_active':''"
+                  @click="sizeChange(index,sizeitem)"
+                >{{sizeitem.av_fvalue}}</div>
+              </div>
+            </div>
+
+            <div class="bottomBtn" @click="confirmBtn()">确定</div>
+          </div>
+        </van-popup>
+      </div>
+    </div>
     <!-- 弹出层 -->
+
     <!-- detailBottomNav -->
     <div id="detailBottomNav">
       <van-goods-action>
         <van-goods-action-icon icon="chat-o" text="客服" @click="onClickIcon" />
         <van-goods-action-icon icon="cart-o" text="购物车" @click="tocart" />
         <van-goods-action-button type="warning" text="加入购物车" @click="onClickButton" />
-        <van-goods-action-button type="danger" text="立即购买" @click="tocart" />
+        <van-goods-action-button type="danger" text="立即购买" @click="popup2()" />
       </van-goods-action>
     </div>
     <!-- detailBottomNav -->
@@ -110,7 +164,7 @@
 
 <script>
 import { instance } from "@/utils/axios.js";
-
+import { mapState, mapMutations } from "vuex";
 import Vue from "vue";
 import {
   Swipe,
@@ -134,10 +188,31 @@ export default {
     return {
       current: 0,
       show: false,
+      show2: false,
       detailInfo: [],
       detailSku: [],
-      detailCoupon: []
+      detailCoupon: [],
+      discountShow: false,
+      goodid: 0,
+      colorArr: [],
+      sizeArr: [],
+      sizeActive: 0,
+      colorActive: 0,
+      colorText: "颜色",
+      sizeText: "尺码",
+      defaultText: "请选择"
     };
+  },
+  computed: {
+    ...mapState("cart", ["cartArr"]),
+    selectShop() {
+      if (this.colorText != "颜色" && this.sizeText != "尺码") {
+        this.defaultText = "已选择";
+        return "已选择";
+      } else {
+        return "请选择";
+      }
+    }
   },
   methods: {
     onChange(index) {
@@ -150,38 +225,83 @@ export default {
       this.$router.push("/cart");
     },
     onClickButton() {
-      Toast({
-        message: "加入购物车成功",
-        className: "buttonToast",
-        icon: "https://img.yzcdn.cn/vant/logo.png"
-      });
+      this.popup2();
+      // Toast({
+      //   message: "加入购物车成功",
+      //   className: "buttonToast",
+      //   icon: "https://img.yzcdn.cn/vant/logo.png"
+      // });
     },
     revert() {
       this.$router.go(-1);
     },
     popup() {
       this.show = true;
+    },
+    popup2() {
+      this.show2 = true;
+      this.colorText = this.colorArr[0].av_zvalue;
+      this.sizeText = this.sizeArr[0].av_fvalue;
+    },
+    confirmBtn() {
+      this.show2 = false;
+
+      console.log(this.colorText);
+      console.log(this.sizeText);
+    },
+    colorChange(index, value) {
+      this.colorText = value.av_zvalue;
+      this.colorActive = index;
+    },
+    sizeChange(index, value) {
+      this.sizeText = value.av_fvalue;
+      this.sizeActive = index;
     }
   },
 
-  mounted() {
+  created() {
     //接口测试，，，给goods_id
     // https://webservice.juanpi.com/api/getMemberAboutInfo?goods_id=149939809&req_coupons_id=149939809
 
     let goodsId = this.$route.params.shopid;
 
+    if (goodsId) {
+      this.goodid = goodsId;
+      sessionStorage.setItem("detailid", goodsId);
+    } else {
+      this.goodid = sessionStorage.getItem("detailid");
+    }
+
     instance
       .get("api/getMemberAboutInfo", {
         params: {
-          goods_id: goodsId,
-          req_coupons_id: goodsId
+          goods_id: this.goodid,
+          req_coupons_id: this.goodid
         }
       })
       .then(res => {
         this.detailInfo = res.data.skudata.info;
-        this.detailSku = res.data.skudata.info;
-        this.detailCoupon = res.data.discount.coupon[0];
-        // console.log(this.detailCoupon);
+        this.detailSku = res.data.skudata.sku;
+
+        if (res.data.discount.coupon == "") {
+          this.discountShow = false;
+        } else {
+          this.discountShow = true;
+          this.detailCoupon = res.data.discount.coupon[0];
+        }
+
+        const colorNewArr = [];
+        this.detailSku.forEach(item => {
+          colorNewArr.filter(m => m.av_zvalue === item.av_zvalue).length ===
+            0 && colorNewArr.push(item);
+        });
+        const sizeNewArr = [];
+        this.detailSku.forEach(item => {
+          sizeNewArr.filter(m => m.av_fvalue === item.av_fvalue).length === 0 &&
+            sizeNewArr.push(item);
+        });
+        this.colorArr = colorNewArr;
+        this.sizeArr = sizeNewArr;
       });
   }
 };
@@ -272,6 +392,7 @@ export default {
     font-size: 0.4rem;
   }
 }
+
 // .van-toast {
 //   height: 0.6rem;
 //   .van-toast__text {
@@ -442,6 +563,89 @@ export default {
             color: blue;
           }
         }
+      }
+    }
+  }
+
+  #popup2 {
+    .contextBox2 {
+      padding: 0 0.2rem;
+      .topBox {
+        position: relative;
+        height: 1.5rem;
+
+        .imgBox {
+          width: 2rem;
+          height: 2rem;
+          position: absolute;
+          top: -1rem;
+          z-index: 2222;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .shopInfo {
+          float: right;
+          margin-right: 1rem;
+          width: 4rem;
+          height: 1.5rem;
+          // background: bisque;
+          .price {
+            color: red;
+            font-size: 0.4rem;
+          }
+          .shop_c_s {
+            color: rgb(122, 122, 122);
+            font-size: 0.28rem;
+
+            span {
+              margin-right: 0.2rem;
+            }
+          }
+        }
+      }
+
+      .colorBox,
+      .sizeBox {
+        h2 {
+          color: gray;
+          font-size: 0.5rem;
+          font-weight: bold;
+        }
+        .selectBox {
+          display: flex;
+          flex-wrap: wrap;
+
+          .s_option {
+            width: 2rem;
+            height: 0.6rem;
+            text-align: center;
+            font-size: 0.28rem;
+            line-height: 0.6rem;
+            border: 0.01rem solid black;
+            margin: 0.15rem;
+            white-space: nowrap; //不换行
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          .s_option_active {
+            border: 0.01rem solid orangered;
+          }
+        }
+      }
+
+      .bottomBtn {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 1rem;
+        background: #ff464e;
+        color: white;
+        font-size: 0.5rem;
+        text-align: center;
+        line-height: 1rem;
       }
     }
   }

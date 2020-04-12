@@ -7,6 +7,7 @@ import Personal from '../views/Personal.vue'
 import Brand from '../views/Brand.vue'
 import Detail from '../views/Detail.vue'
 import Search from '../views/Search.vue'
+import Cate from '../views/Cate.vue'
 
 Vue.use(VueRouter)
 
@@ -25,7 +26,10 @@ const routes = [
     path: '/cart',
     name: 'cart',
     // component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue'), 
-    component: Cart
+    component: Cart,
+    meta: {
+      hiddenBottomNav: true,
+    }
 
   },
   {
@@ -39,6 +43,14 @@ const routes = [
     path: '/detail',
     name: 'detail',
     component: Detail,
+    meta: {
+      hiddenBottomNav: true,
+    }
+  },
+  {
+    path: '/cate',
+    name: 'cate',
+    component: Cate,
     meta: {
       hiddenBottomNav: true,
     }

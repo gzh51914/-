@@ -34,8 +34,8 @@
     <!-- branInfoBox -->
     <!-- countDown -->
     <div id="countDown">
-      <div>距离结束还剩</div>
-      <div class="time">{{`xx天xx时xx分xx秒`}}</div>
+      <div class="ct">距离结束还剩</div>
+      <van-count-down :time="time" format="DD 天 HH 时 mm 分 ss 秒" />
     </div>
     <!-- countDown -->
     <!-- tarbas -->
@@ -118,13 +118,13 @@
 <script>
 import Vue from "vue";
 import { instance } from "@/utils/axios.js";
-import { NavBar, Toast, Tab, Tabs, Divider } from "vant";
+import { NavBar, Toast, Tab, Tabs, Divider, CountDown } from "vant";
 
 Vue.use(Tab);
 Vue.use(Tabs);
 Vue.use(NavBar).use(Toast);
 Vue.use(Divider);
-
+Vue.use(CountDown);
 export default {
   data() {
     return {
@@ -135,9 +135,10 @@ export default {
       toggleData: [],
       startTime: 0,
       endTime: 0,
-
+      viewNum: 0,
       tarbasActive: 0,
-      urlID: ""
+      urlID: "",
+      time: 30 * 60 * 60 * 1000
     };
   },
   computed: {},
@@ -159,18 +160,22 @@ export default {
     changeTab2() {}
   },
   created() {
-    //截取请求的ID
-    let resId = this.$route.params.urlid
-      .replace(/[^0-9]/gi, " ")
-      .trim()
-      .split(" ");
-    resId = resId[0] + "_" + resId[resId.length - 1];
-    this.urlID = resId;
+    if (this.$route.params.urlid) {
+      //截取请求的ID
+      this.urlID = this.$route.params.urlid
+        .replace(/[^0-9]/gi, " ")
+        .trim()
+        .split(" ");
+      this.urlID = this.urlID[0] + "_" + this.urlID[this.urlID.length - 1];
+    } else {
+      this.urlID = sessionStorage.getItem("brand_id");
+    }
+
     instance
       .get("api/getBrandGoods", {
         params: {
           page: 1,
-          brand_id: resId,
+          brand_id: this.urlID,
           msort: 1,
           goods_utype: "C4"
         }
@@ -188,18 +193,32 @@ export default {
       });
   },
 
-  mounted() {},
+  mounted() {
+    sessionStorage.setItem("brand_id", this.urlID);
+  },
   updated() {
     //时间戳
     let endTime = this.brandInfo.gs_end_time;
     let startTime = this.brandInfo.gs_start_time;
     this.startTime = startTime * 1;
     this.endTime = endTime * 1;
+    let currentTime = new Date().getTime();
+    // this.time = this.endTime - currentTime;
   }
 };
 </script>
 
 <style lang="scss">
+#countDown {
+  .ct {
+    font-size: 0.24rem;
+    margin-bottom: 0.05rem;
+  }
+  .van-count-down {
+    font-size: 0.3rem;
+  }
+}
+
 #navBarBox {
   .van-nav-bar {
     height: 0.88rem;

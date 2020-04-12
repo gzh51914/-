@@ -2,6 +2,7 @@ module.exports = {
     // publicPath: "/", //两种方式上线都不行
     publicPath: "./",
     devServer: {
+
         proxy: {
 
             "/juanpi": {

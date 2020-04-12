@@ -11,11 +11,20 @@
     </div>
     <!-- sidebar -->
     <div id="sidebar">
-      <van-sidebar v-model="activeKey">
-        <van-sidebar-item title="标签名称" />
-        <van-sidebar-item title="标签名称" />
-        <van-sidebar-item title="标签名称" />
+      <van-sidebar v-model="activeKey" @change="changeSideBar">
+        <van-sidebar-item v-for="item in classifyArr" :key="item.name" :title="item.name" />
       </van-sidebar>
+      <div class="rightSideBar">
+        <van-grid icon-size="1.4rem" :column-num="3">
+          <van-grid-item
+            v-for="value in classifyArr2"
+            :key="value.id"
+            :icon="`http://s2.juancdn.com${value.icon}`"
+            :text="value.name"
+            @click="tocate(value.id)"
+          />
+        </van-grid>
+      </div>
     </div>
     <!-- sidebar -->
   </div>
@@ -24,40 +33,54 @@
 <script>
 import Vue from "vue";
 import $ from "jquery";
-import { Sidebar, SidebarItem } from "vant";
+import { Sidebar, SidebarItem, Grid, GridItem, Image } from "vant";
 
 Vue.use(Sidebar);
 Vue.use(SidebarItem);
-
+Vue.use(Grid);
+Vue.use(GridItem);
+Vue.use(Image);
 export default {
   data() {
     return {
-      activeKey: 0
+      activeKey: 0,
+      classifyArr: [],
+      classifyArr2: []
     };
   },
   methods: {
     toSearch() {
       this.$router.push("/search");
+    },
+    changeSideBar(index = 0) {
+      this.classifyArr2 = this.classifyArr[index].secondCateList;
+    },
+    tocate(value) {
+      this.$router.push({ name: "cate", params: { cate_id: value } });
     }
   },
+
   created() {
-    //jsonp请求数据
-    $.ajax({
-      type: "get",
-      url: "https://m.juanpi.com/cate/catelist",
-      data: {
-        pf: 8,
-        area: 4,
-        bi: 222,
-        dtype: "jsonp"
-      },
-      dataType: "jsonp",
-      jsonp: "callback",
-      jsonpCallback: "jsonp1",
-      success: function(res) {
-        console.log(res); //
-      }
-    });
+    if (this.classifyArr.length == 0) {
+      //jsonp请求数据
+      $.ajax({
+        type: "get",
+        url: "https://m.juanpi.com/cate/catelist",
+        data: {
+          pf: 8,
+          area: 4,
+          bi: 222,
+          dtype: "jsonp"
+        },
+        dataType: "jsonp",
+        jsonp: "callback",
+        jsonpCallback: "jsonp1",
+        success: res => {
+          this.classifyArr.push(...res);
+          this.changeSideBar();
+        }
+      });
+    }
   },
   mounted() {}
 };
@@ -77,6 +100,11 @@ export default {
         padding: 0;
       }
     }
+    .rightSideBar {
+      .van-grid-item__text {
+        font-size: 0.3rem;
+      }
+    }
   }
 }
 </style>
@@ -84,6 +112,8 @@ export default {
 
 <style lang="scss" scoped>
 #classify {
+  height: calc(100vh - 1rem);
+  overflow: auto;
   #topSearch {
     height: 0.88rem;
     display: flex;
@@ -120,6 +150,13 @@ export default {
       font-size: 0.3rem;
       text-align: center;
       line-height: 0.88rem;
+    }
+  }
+
+  #sidebar {
+    display: flex;
+    .rightSideBar {
+      flex: 1;
     }
   }
 }
