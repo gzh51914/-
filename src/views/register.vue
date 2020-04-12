@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div class="home">
     <van-nav-bar title="注册页" left-text="返回" left-arrow>
       <template #right></template>
     </van-nav-bar>

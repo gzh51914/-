@@ -2,9 +2,9 @@
   <div id="personal">
     <van-nav-bar title="个人中心" left-arrow @click-left="onClickLeft" @click-right="onClickRight" />
     <div class="content_top">
-      <span>登录</span>
-      <span>|</span>
-      <span>注册</span>
+      <a href="https://m.juanpi.com/user/login">登录</a>
+      <a>|</a>
+      <a href="https://m.juanpi.com/user/register">注册</a>
     </div>
     <van-nav-bar left-text="我的订单" right-text="订单详情"></van-nav-bar>
     <van-grid>
@@ -77,7 +77,7 @@ export default {
   line-height: 3.125rem;
   text-align: center;
   color: #fff;
-  span {
+  a {
     font-size: 0.4rem;
     padding: 0.375rem;
   }

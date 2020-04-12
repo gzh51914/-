@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="home">
     <div class="fixtop">
       <a id="t-find" href="javascript:history.go(-1);" class="btnBack">
         <img
